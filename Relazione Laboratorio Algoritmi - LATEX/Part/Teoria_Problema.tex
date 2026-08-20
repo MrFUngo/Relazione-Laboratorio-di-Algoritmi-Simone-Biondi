@@ -1,4 +1,5 @@
 \section{Teoria e Problema}
+\label{sezione2}
 \subsection{Introduzione}
 Per poter svolgere l'esercizio è necessario capire, anche se brevemente, cosa sono gli Alberi Binari di Ricerca (in generale) e successivamente una comprensione delle sue varianti più "potenti". 
 In particolare come tali alberi sono visti come una Struttura Dati e conseguentemente gli eventuali Algoritmi che possono essere utilizzati su di essi.
@@ -29,7 +30,7 @@ Un esempio grafico che rispetti tale proprietà è il seguente:
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.3\textwidth]{Resources/ABR_Esempio.jpeg}
-	\caption{Esempio Visivo}
+	\caption{Esempio di ABR generico}
 	\label{fig:immagine}
 \end{figure}
 
@@ -82,7 +83,8 @@ Un albero Rosso-Nero (\texttt{Red-Black [RB]}) è un ABR auto-bilanciato: per og
 \end{itemize}
 Con queste nuove proprietà si impedisce che l'albero diventi troppo sbilanciato e pertanto dopo inserimenti o cancellazioni, vengono usate ricolorazione dei nodi e rotazioni per ribilanciare localmente la struttura. Come gli AVL, i RB garantiscono altezza $\Theta(lg(n))$ e pertanto per metodi di inserimento e cancellazione il costo computazionale è $\mathcal{O}(lg(n))$. Come nel caso precedente si deduce che il caso peggiore visto da un ABR generico viene tranquillamente risolto anche tramite i RB.
 \subsection{Una prima conclusione: assunti ed ipotesi}
-Nella sezione 2 abbiamo affrontato la parte teorica per fare fronte agli esperimenti condotti. Per gli esperimenti affronteremo due casi particolari di costruzioni di alberi binari di ricerca e sue varianti come segue:
+\label{Sezione2.8}
+Nella \hyperref[sezione2]{Sezione 2} abbiamo affrontato la parte teorica per fare fronte agli esperimenti condotti. Per gli esperimenti affronteremo due casi particolari di costruzioni di alberi binari di ricerca e sue varianti come segue:
 \begin{itemize}
 	\item \textbf{Caso 1:}  Vengono inserite chiavi distinte in un ordine
 	casuale [\textit{Caso medio}]
@@ -90,9 +92,10 @@ Nella sezione 2 abbiamo affrontato la parte teorica per fare fronte agli esperim
 	strettamente crescente (o decrescente). L'ABR generico degenera,
 	mentre AVL e RB mantengono il bilanciamento [\textit{Caso peggiore per ABR generico}].
 \end{itemize}
-Le tabelle in 2.9 ci permettono di avere un primo confronto tra le diverse strutture dati usate e come l'algoritmo dell'Inserimento si distingue, in termini di costi computazionali, tra le 3 tipologie di ABR per entrambe le casistiche. L'obbiettivo è pertanto quello di verificare che i risultati attesi delle complessità computazionali siano veritieri attraverso la sperimentazione.
+Le \hyperref[Tabelle2.9]{Tabelle in 2.9} ci permettono di avere un primo confronto tra le diverse strutture dati usate e come l'algoritmo dell'Inserimento si distingue, in termini di costi computazionali, tra le 3 tipologie di ABR per entrambe le casistiche. L'obbiettivo è pertanto quello di verificare che i risultati attesi delle complessità computazionali siano veritieri attraverso la sperimentazione.
 \subsection{Tabella delle complessità computazionali a confronto}
-Le tabelle seguenti presentano i risultati attesi da verificare successivamente sperimentalmente: ricerca e cancellazione sono riportate come confronto teorico (un approfondimento verrà fatto nella sezione 5.1); la sperimentazione considera solamente il costo di costruzione mediante l'inserimento. Per ciascuno dei 2 esperimenti verranno introdotti \textit{x} nodi, sia per il caso randomico e sia per il caso peggiore. Riportiamo in ogni caso il costo computazionale per una singola operazione tra inserimento, ricerca e cancellazione. Si faccia riferimento alla sub-sezione 2.8 per "Caso 1" e "Caso 2":
+Le tabelle seguenti presentano i risultati attesi da verificare successivamente sperimentalmente: ricerca e cancellazione sono riportate come confronto teorico (un approfondimento verrà fatto nella \hyperref[Sezione5.2]{Sezione 5.2}); la sperimentazione considera solamente il costo di costruzione mediante l'inserimento. Per ciascuno dei 2 esperimenti verranno introdotti \textit{x} nodi, sia per il caso randomico e sia per il caso peggiore. Riportiamo in ogni caso il costo computazionale per una singola operazione tra inserimento, ricerca e cancellazione. Si faccia riferimento alla \hyperref[Sezione2.8]{Sezione 2.8} per "Caso 1" e "Caso 2":
+\label{Tabelle2.9}
 \begin{figure}[H]
 	\centering
 	\begin{tabular}{|c|c|c|}

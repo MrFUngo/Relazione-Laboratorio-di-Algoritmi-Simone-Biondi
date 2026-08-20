@@ -32,10 +32,10 @@ Per il programma principale sono state utilizzate librerie di Python in modo tal
 	\item liberare la memoria tramite l'uso del garbage-collector [\texttt{gc}].
 \end{itemize}
 Sempre all'interno di \texttt{main.py}, per poter garantire la riproducibilità del caso medio, è stato fissato il $seed$ del generatore casuale al valore $42$. Conseguentemente, ad ogni esecuzione, le tre strutture ricevono la medesima permutazione casuale delle chiavi.
-Inoltre il programma è stato suddiviso, sia per il caso 1 che per il caso 2 (si faccia riferimento alla sezione 2.8), in 3 parti. Pertanto si considera ciascuna azione sottostante ripetuta 2 volte:
+Inoltre il programma è stato suddiviso, sia per il caso 1 che per il caso 2 (si faccia riferimento alla \hyperref[Sezione2.8]{Sezione 2.8}), in 3 parti. Pertanto si considera ciascuna azione sottostante ripetuta 2 volte:
 \begin{itemize}
 	\item \textbf{Inizializzazione}: ogni Albero sotto esame viene inizializzato istanziandone la classe. Vengono aggiunti 2 array per ciascun tipo di albero i quali contengono, rispettivamente, i nodi inseriti e i tempi di inserimento per ogni nodo;
-	\item \textbf{Inserimento}: attraverso un parametro detto \texttt{MAX\_NODI} è possibile scegliere il numero di nodi da poter inserire all'interno di ciascun albero sia per il caso 1 che per il caso 2. Si approfondirà l'argomento nella sezione 4;
+	\item \textbf{Inserimento}: attraverso un parametro detto \texttt{MAX\_NODI} è possibile scegliere il numero di nodi da poter inserire all'interno di ciascun albero sia per il caso 1 che per il caso 2. Si approfondirà l'argomento nella \hyperref[Sezione4.3]{Sezione 4.3};
 	\item \textbf{Grafici}: per entrambi i casi verranno disposti 2 grafici contenti i risultati ottenuti tramite gli inserimenti. In particolare avremmo, per ogni grafico, i tempi cumulativi di inserimento lungo le ordinate (ossia viene registrato il tempo cumulativo necessario a costruire l'albero fino a $x$ nodi) mentre lungo le ascisse avremmo il numero di nodi inseriti. Questo ci permette di poter ottenere un confronto visivo e di poter quindi constatare la teoria trattata nella sezione 2.
 \end{itemize}
 Una ulteriore nota, di molta importanza, fa riferimento al parametro \texttt{LIMITE}. Questo parametro è stato introdotto in quanto l'inserimento per il caso 2 poteva richiedere un grande quantitativo di tempo per poter terminare (con particolare attenzione ad un ABR generico). Questa situazione si aggravava con l'aumentare del parametro \texttt{MAX\_NODI} e pertanto la soluzione è stata quella di introdurre un limite temporale.\\ 
@@ -46,7 +46,7 @@ A seguire il diagramma delle classi:
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\textwidth]{Resources/UML2.png}
-	\caption{Diagramma delle Classi}
+	\caption{Diagramma delle classi del codice }
 	\label{fig:img}
 \end{figure}
 Il diagramma mostra le tre strutture principali:
