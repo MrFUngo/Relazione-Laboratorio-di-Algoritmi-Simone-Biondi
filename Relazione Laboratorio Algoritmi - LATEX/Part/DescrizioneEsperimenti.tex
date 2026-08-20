@@ -1,0 +1,146 @@
+\section{Descrizione ed Analisi dei risultati sperimentali}
+\subsection{Cosa ci dobbiamo aspettare}
+Come anticipato nelle sezioni precedenti, in particolare in riferimento alla 2.8, la descrizione degli esperimenti verterà su due casistiche particolari con lo scopo di vedere come un albero binario di ricerca venga creato e, ai fini della relazione, confrontare i risultati sperimentali con la teoria (e quindi con risultati attesi) vista fino ad ora.
+L'obbiettivo è pertanto quello di verificare i costi computazionali nella creazione di un ABR generico, di un AVL e di un RB per i casi 1 e 2 (2.8) e confrontare tali risultati con la teoria. Da ora considereremo per qualunque tipo di casistica l'inserimento di $n$ nodi.\\ \\
+Per il \textbf{caso medio} ci aspettiamo che il costo di una singola inserzione per ABR, AVL e RB è  $\mathcal{O}(lg(n))$. Poichè i grafici misurano il tempo cumulativo di costruzione dopo $n$ inserimenti, ci aspettiamo un andamento $\Theta(nlgn)$, che nell'intervallo sperimentale considerato appare quasi lineare.
+\begin{tcolorbox}[colback=lightgray!20,%gray background
+	colframe=black,% black frame colour
+	arc=3mm, auto outer arc,] \textbf{Attenzione:} dovremmo prestare particolare attenzione alle costanti che possono entrare in gioco. Ricordiamo dalla teoria della complessità computazionale che una scrittura del tipo $\mathcal{O}(f(n))$ sta a indicare un limite superiore asintotico al costo computazionale in funzione di $f(n)$. Nel caso medio, ABR, AVL e RB hanno lo stesso ordine di complessità,
+	ma possono mostrare tempi sperimentali differenti. In particolare, ci
+	si può aspettare che l'AVL presenti una costante moltiplicativa maggiore, poiché mantiene un bilanciamento più rigido. Infatti ad ogni inserimento, l'AVL:
+	\begin{itemize}
+		\item risale verso la radice;
+		\item aggiorna l'attributo $altezza$ dei nodi;
+		\item calcola la differenza (in modulo) di altezza tra figlio sinistro e figlio destro del nodo corrente;
+		\item se necessario esegue una o due rotazioni.		
+	\end{itemize}
+	L'ABR, invece, individua la posizione corretta e collega il nuovo nodo
+	senza aggiornare altezze o ribilanciare l'albero. Anche l'albero
+	Rosso-Nero può eseguire ricolorazioni e rotazioni, ma il suo vincolo di
+	bilanciamento è meno rigido rispetto a quello AVL e, in media, richiede
+	meno rotazioni o aggiornamenti. \\
+	Nell'ultima sezione dedicherò un paragrafo che tratta l'uso di AVL e RB a confronto ed eventuali vantaggi e svantaggi. \\
+\end{tcolorbox}
+Infine per il \textbf{caso peggiore}, quindi il "caso ordinato",  ci aspettiamo solamente una modifica al costo computazionale per gli ABR generici. Per un inserimento singolo abbiamo già visto che il costo per un ABR generico è di $\mathcal{O}(n)$: pertanto inserendo $n$ nodi ci aspettiamo un costo computazionale $\Theta(n^2)$; resta invece invariato per AVL e RB, ossia $\Theta(nlg(n))$.
+\subsection{Misurare il tempo}
+Ai fini dell'esperimento è stata utilizzata la libreria Python \texttt{time}, in particolare la funzione \texttt{perf\_counter()}.
+Il tempo misurato è cumulativo: dopo l'inserimento dell'$n$-esimo nodo,
+viene memorizzato il tempo trascorso dall'inizio della costruzione
+dell'albero.
+L'operazione di salvataggio nell'array può essere rappresentata come: \[
+\texttt{tempi\_y}[n] =
+t_{\mathrm{fine},n} - t_{\mathrm{inizio}}
+\]
+dove $y \in \{\mathrm{ABR}, \mathrm{AVL}, \mathrm{RB}\}$ identifica la
+tipologia di albero.
+Indicando con $t_y(i)$ il tempo necessario per inserire l'$i$-esimo
+nodo nell'albero di tipo $y$, il tempo cumulativo dopo $n$ inserimenti è: \[
+T_y(n) = \sum_{i=1}^{n} t_y(i)
+\]
+Pertanto poichè il tempo è cumulativo e non calcolato per ogni singola inserzione ci dobbiamo aspettare un andamento "quasi lineare" nel caso medio per tutte e 3 le tipologie di albero. Questo perchè una curva logaritmica cresce molto lentamente; per il caso peggiore invece ci dovrà essere una differenza sostanziale tra ABR generici contro AVL e RB.
+\subsection{Input utilizzati}
+Grazie al parametro \texttt{MAX\_NODI} presente in \texttt{main.py} possiamo analizzare diversi tipi di input per entrambe le casistiche. L'esperimento verterà su 3 diverse tipologie di input e quindi consideremo 3 casisistiche con un numero di nodi da inserire sempre più grande:
+\begin{itemize}
+	\item \textbf{5.000}: caso "base" che permette di cominciare ad avere una idea dei vari costi computazionali attesi;
+	\item \textbf{50.000}: caso in cui la curva quadratica per il caso peggiore di ABR generico diventa sempre più evidente;
+	\item \textbf{100.000}: caso in cui portiamo all'estremo l'esperimento.
+\end{itemize}
+\subsection{Alberi con 5.000 elementi}
+In questa prima sezione vediamo come la costruzione delle 3 tipologie di albero si comportano a fronte di un numero di nodi in input "abbastanza basso":
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Resources/figure_1.png}
+	\caption{Caso Medio}
+	
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Resources/figure_2.png}
+	\caption{Caso Peggiore}
+\end{figure}
+
+
+Nella prima figura, come anticipato in 4.2, si può vedere un andamento "quasi lineare" per tutte e 3 le tipologie di albero.
+Si può notare inoltre, come predetto in 4.1, che l'AVL presenta un costo computazionale leggermente più alto rispetto a ABR generici e RB: questo a causa del suo ribilanciamento più rigido. \\
+Nella seconda figura invece, come ci aspettavamo, si intravede una curva quadratica per ABR generico; per RB e AVL invece si rispetta sempre l'andamento "quasi lineare".
+\subsection{Alberi con 50.000 elementi}
+In questa seconda sezione vediamo come la costruzione delle 3 tipologie di albero si comportano a fronte di un numero maggiore di nodi in input. In questo caso ha notevole importanza il parametro \texttt{LIMITE} presente in \texttt{main.py}. Questo perchè al crescere dell'input, l'ABR generico può impiegare molto più tempo durante l'inserimento a causa dell'elevato numero di confronti che deve fare. Tale limite temporale è stato settato a 30 secondi (ma può essere modificato a piacere):
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Resources/figure_3.png}
+	\caption{Caso Medio}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Resources/figure_4.png}
+	\caption{Caso Peggiore}
+\end{figure}
+Come nel caso successivo a questo, l'ABR generico nel caso peggiore non ha completato la sua esecuzione in quanto ha raggiunto il limite temporale dei 30 secondi.
+\newpage
+\subsection{Alberi con 100.000 elementi}
+Caso estremo. Il parametro \texttt{LIMITE} viene impostato a 60s in quanto l'ABR generico nel caso peggiore può impiegare un elevato numero di secondi maggiore rispetto ai due test precedenti:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Resources/figure_5.png}
+	\caption{Caso Medio}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Resources/figure_6.png}
+	\caption{Caso Peggiore}
+\end{figure}
+Nel caso peggiore l'ABR generico non ha completato l'inserimento dei 100.000 nodi in quanto l'esecuzione è stata interrotta al raggiungimento dei 60 secondi impostati tramite il parametro \texttt{LIMITE}. AVL e RB invece lo hanno completato entro tale tempo.
+\newpage
+\section{Conclusioni}
+\subsection{Risultati e affermazioni}
+Dai grafici finali e dagli esperimenti effettuati possiamo concludere che:
+\begin{itemize}
+	\item il metodo di inserimento nel caso peggiore di un ABR generico presenta un costo di $\Theta(n^2)$; mentre per AVL e RB si presenta un costo di $\Theta(nlg(n))$ (anche se per i motivi scritti precedentemente, l'andamento risulta "quasi lineare");
+	\item il metodo di inserimento nel caso medio invece risulta più o meno similare per tutte e 3 le tipologie di albero in quanto il costo computazionale per inserire $n$ nodi è $\Theta(nlg(n))$. Anche in questo caso l'andamento risulta "quasi lineare" per i motivi citati precedentemente. Inoltre come anticipato più volte l'AVL presenta un costo leggermente maggiorato pur mantenendo l'andamento che ci aspettavamo.. questo a causa della sua rigidità nel ribilanciare localmente l'albero.
+\end{itemize}
+Possiamo pertanto concludere che la teoria è in linea con gli esperimenti effettuati e che i risultati sperimentali coincidono con quelli teorici.
+\subsection{RB, AVL o ABR: quale scegliere?}
+Consideriamo la seguente domanda:
+\begin{tcolorbox}[colback=lightgray!20,%gray background
+	colframe=black,% black frame colour
+	arc=3mm, auto outer arc,]\centering\textit{Quando è più conveniente usufruire dei RB o degli AVL?}
+\end{tcolorbox}
+Ha senso porsi questa domanda in quanto, come abbiamo visto, l'andamento nel costo computazionale dell'inserimento (e anche se non sono stati trattati in questa relazione, valgono anche per la ricerca e cancellazione) è più o meno lo stesso per gli AVL e i RB, differendo solamente di qualche costante.\\
+Di seguito si riportano i vari svantaggi e vantaggi nell'uso degli AVL e dei RB in modo da poterne trarre delle conclusioni in merito:
+\begin{itemize}
+	\item \textbf{Vantaggi}: 
+		\begin{itemize}
+			\item \textbf{RB}: risultano efficienti nelle cancellazioni e negli inserimenti in quanto, a differenza degli AVL, sono meno rigidi nel ribilanciarsi. Questo perchè i RB usufruiscono del vincolo sul numero di nodi neri che comunque limita l'altezza dell'albero, ed è meno rigido rispetto all'AVL. Pertanto poichè tende ad avere un vincolo meno rigido, l'albero può richiedere meno ribilanciamento.
+			\item \textbf{AVL}: è rigidamente bilanciato. Questo comporta ad avere altezza minore rispetto ad un RB. Si deduce quindi che la ricerca è molto più vantaggiosa quando prevalgono le richerche in quanto l'altezza è rigidamente controllata dall'AVL.
+		\end{itemize}
+	\item\textbf{Svantaggi}:
+			\begin{itemize}
+			\item \textbf{RB}: poichè meno rigidi nel ribilanciarsi, l'altezza dell'albero può essere maggiore rispetto ad un albero con proprietà AVL. Difatti la ricerca non ha la medesima efficienza di un albero AVL;
+			\item \textbf{AVL}: visto anche tramite gli esperimenti. Poichè troppo rigidi, essi impiegano di più nel ribilanciare localmente la struttura a causa di una possibile doppia rotazione (anche se costo costante per ognuna di esse) e a causa degli aggioramenti dovute alle altezze di ogni nodo presenti nel cammino considerato.
+		\end{itemize}
+\end{itemize}
+Si deduce quindi che:
+\begin{itemize}
+	\item molte ricerche $\rightarrow$ è preferibile usare AVL;
+	\item molti inserimenti/cancellazioni $\rightarrow$ è preferibile usare RB.
+\end{itemize}
+Consideriamo adesso questa ultima domanda:
+\begin{tcolorbox}[colback=lightgray!20,%gray background
+	colframe=black,% black frame colour
+	arc=3mm, auto outer arc,]\centering\textit{E per gli ABR generici?}
+\end{tcolorbox}
+Per come è impostato un ABR generico ha senso utilizzarlo se, a priori, si hanno ipotesi sull'input considerato. Infatti se l'ordine di inserimento risulta casuale, gli ABR generici sono preferibili nel loro uso in quanto:
+\begin{itemize}
+	\item implementazione molto più semplice rispetto a AVL o RB;
+	\item no ribalanciamenti, ricolorazioni o altezze da aggiornare;
+	\item minor costo per singola inserzione per via di costanti più piccole rispetto a AVL e RB;
+	\item se vengono inseriti $n$ nodi il costo resta $\Theta(nlg(n))$.
+	
+\end{itemize}
+Chiaramente lo svantaggio si ha nel momento in cui le chiavi vengono ricevute ordinate o quasi ordinate:
+\begin{itemize}
+	\item l'albero degenera in una lista;
+	\item l'altezza attesa dell'albero passa da una altezza logaritmica ad una lineare;
+	\item il costo diventa $\mathcal{O}(n)$ per ogni singola operazione di Ricerca, Cancellazione e Inserimento.
+\end{itemize}
