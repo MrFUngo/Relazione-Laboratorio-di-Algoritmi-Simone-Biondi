@@ -5,7 +5,4 @@
 *.lof
 *.synctex.gz
 __pycache__/
-.DS_Store
-.bbl
-.blg
-.tex
+*.DS_Store
